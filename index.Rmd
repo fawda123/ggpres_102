@@ -1,6 +1,6 @@
 ---
 title       : ggplot2 redux
-subtitle    : random things I like
+subtitle    : random things I like and other stuff
 author      : Marcus Beck
 logo        : epa-seal.png
 job         : ORISE post-doc
@@ -10,33 +10,245 @@ hitheme     : tomorrow      #
 widgets     : []            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
 
----&twocol w1:20% w2:80%
+---
+
+```{r, echo = F}
+opts_chunk$set(cache = T) 
+```
 
 ## To cover
 
-***=left
+- facet_wrap, facet_grid
+- themes, preset and custom
+- ggmap
+- ggally
 
-- list
-- on the left 
-- side
+What can you do w/ ggplot2 that you can't do w/ base functions?
 
-***=right
-- list
-- on the right
-- side
-
---- &twocol w1:50% w2:50%
+---
 
 ## R Code Chunk Example
 
-***=left
-Some data and a plot:
+- Facetting is one of the more powerful aspects of ggplot2
 
-```{r eval=FALSE}
-plot(rnorm(10))
+- plot y vs x (or just x) by z, where z is some categorical variable
+
+- facet_grid or facet_wrap
+
+```{r eval=T}
+data(diamonds)
+head(diamonds)
+```
+
+---&twocol w1:50% w2:50%
+
+## Simple scatterplot 
+
+***=left
+```{r echo = T, eval = F}
+p1 <- ggplot(diamonds, aes(x = carat, 
+		y = price)) +
+	geom_point()
+p1
 ```
 
 ***=right
-```{r echo=FALSE, fig.width=7}
-plot(rnorm(10))
+
+```{r echo = F}
+p1 <- ggplot(diamonds, aes(x = carat, 
+		y = price)) +
+	geom_point()
+p1
 ```
+
+---&twocol w1:50% w2:50%
+
+## Simple scatterplot with facet_wrap
+
+***=left
+
+```{r echo = T, eval = F}
+p1 + facet_wrap(~color)
+```
+
+A simple scatterplot of diamond price by carat, <code>facet_wrap</code> by color
+
+***=right
+
+```{r echo = F, eval = T}
+p1 + facet_wrap(~color)
+```
+
+---&twocol w1:50% w2:50%
+
+## Simple scatterplot with facet_grid
+
+***=left
+
+```{r echo = T, eval = F}
+p1 + facet_grid(~color)
+```
+
+A simple scatterplot of diamond price by carat, <code>facet_grid</code> by color
+
+What's the difference?
+
+***=right
+
+```{r echo = F, eval = T}
+p1 + facet_grid(~color)
+```
+
+---
+
+## facet_wrap vs facet_grid
+
+- more important for multiple facet variables
+- <code>facet_wrap</code> always has one horizontal facet label on the top
+
+```{r fig.align = 'center', fig.height = 5, fig.width = 13}
+p1 + facet_wrap(~ cut + color)
+```
+
+---
+
+## facet_wrap vs facet_grid
+
+- more important for multiple facet variables
+- <code>facet_grid</code> can have both horizontal, vertical facet labels
+
+```{r fig.align = 'center', fig.height = 5, fig.width = 13}
+p1 + facet_grid(cut ~ color)
+```
+
+---
+
+## facet_wrap vs facet_grid
+
+- order of variables affects position of facets
+- <code>facet_wrap</code> orders facets by position in the call
+
+```{r fig.align = 'center', fig.height = 5, fig.width = 13}
+p1 + facet_wrap(~ color + cut) # same as facet_wrap(color ~ cut)
+```
+
+---
+
+## facet_wrap vs facet_grid
+
+- order of variables affects position of facets
+- <code>facet_wrap</code> orders facets by position in the call
+
+```{r fig.align = 'center', fig.height = 5, fig.width = 13}
+p1 + facet_wrap(~ cut + color) # same as facet_wrap(cut ~ color)
+```
+
+---
+
+## facet_wrap vs facet_grid
+
+- order of variables affects position of facets
+- <code>facet_grid</code> orders vertical/horizontal facets by left/right of tilde
+
+```{r fig.align = 'center', fig.height = 5, fig.width = 13}
+p1 + facet_grid(cut ~ color) # not the same as facet_grid(~ cut + color)
+```
+
+---
+
+## facet_wrap vs facet_grid
+
+- order of variables affects position of facets
+- <code>facet_grid</code> orders vertical/horizontal facets by left/right of tilde
+
+```{r fig.align = 'center', fig.height = 5, fig.width = 13}
+p1 + facet_grid(color ~ cut) # not the same as facet_grid(~ color + cut)
+```
+
+---
+
+## facet_wrap vs facet_grid
+
+- both use the <code>scales</code> argument for axes, otherwise fixed
+
+```{r fig.align = 'center', fig.height = 5, fig.width = 13}
+p1 + facet_wrap(~ color + cut, scales = 'free') # or 'free_x', 'free_y' 
+```
+
+---
+
+## facet_wrap vs facet_grid
+
+- <code>facet_grid</code> treats <code>scales</code> differently
+
+```{r fig.align = 'center', fig.height = 5, fig.width = 13}
+p1 + facet_grid(color ~ cut, scales = 'free') # or 'free_x', 'free_y' 
+```
+
+
+---
+
+## facet_wrap vs facet_grid
+
+- <code>facet_wrap</code> uses the <code>ncol</code> argument
+
+```{r fig.align = 'center', fig.height = 5, fig.width = 13}
+p1 + facet_wrap(~ color + cut, ncol = 7)
+```
+
+---
+
+## facet_wrap vs facet_grid
+
+- <code>facet_grid</code> always creates a symmetrical plot
+
+```{r fig.align = 'center', fig.height = 5, fig.width = 13}
+p1 + facet_grid(~ color + cut)
+```
+
+---
+
+## A huge advantage of facets...
+
+- Very easy to quickly evaluate a variable by multiple categories
+- Adding some fake variables to diamonds...
+```{r}
+diamonds$fake1 <- sample(c('A', 'B'), nrow(diamonds), replace = T)
+diamonds$fake2 <- sample(c('C', 'D'), nrow(diamonds), replace = T)
+diamonds$fake3 <- sample(c('E', 'F'), nrow(diamonds), replace = T)
+diamonds$fake4 <- sample(c('G', 'H'), nrow(diamonds), replace = T)
+head(diamonds[, grep('fake', names(diamonds))])
+```
+
+```{r echo = F}
+p1 <- ggplot(diamonds, aes(x = carat, y = price)) + geom_point()
+```
+
+---
+
+## A huge advantage of facets...
+
+```{r fig.align = 'center', fig.height = 5, fig.width = 13}
+p1 + facet_grid(fake1 + fake2 ~ fake3 + fake4)
+```
+
+---
+
+## Facet summary
+
+<code>facet_wrap</code> and <code>facet_grid</code> accomplish similar tasks, with slight differences
+
+<code>facet_wrap</code>
+- only horizontal facet labels
+- not symmetric, uses <code>ncol</code>
+- scales affect all facets
+
+<code>facet_grid</code>
+- horizontal/vertical facet labels
+- always symmetric
+- scales only affect outer facets 
+
+---
+
+## Themes
+

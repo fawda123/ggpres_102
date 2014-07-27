@@ -1,6 +1,6 @@
 ---
 title       : ggplot2 redux
-subtitle    : random things I like
+subtitle    : random things I like and other stuff
 author      : Marcus Beck
 logo        : epa-seal.png
 job         : ORISE post-doc
@@ -10,32 +10,290 @@ hitheme     : tomorrow      #
 widgets     : []            # {mathjax, quiz, bootstrap}
 mode        : selfcontained # {standalone, draft}
 
----&twocol w1:20% w2:80%
+---
+
+
 
 ## To cover
 
-***=left
+- facet_wrap, facet_grid
+- themes, preset and custom
+- ggmap
+- ggally
 
-- list
-- on the left 
-- side
+What can you do w/ ggplot2 that you can't do w/ base functions?
 
-***=right
-- list
-- on the right
-- side
-
---- &twocol w1:50% w2:50%
+---
 
 ## R Code Chunk Example
 
-***=left
-Some data and a plot:
+- Facetting is one of the more powerful aspects of ggplot2
+
+- plot y vs x (or just x) by z, where z is some categorical variable
+
+- facet_grid or facet_wrap
 
 
 ```r
-plot(rnorm(10))
+data(diamonds)
+head(diamonds)
+```
+
+```
+##   carat       cut color clarity depth table price    x    y    z
+## 1  0.23     Ideal     E     SI2  61.5    55   326 3.95 3.98 2.43
+## 2  0.21   Premium     E     SI1  59.8    61   326 3.89 3.84 2.31
+## 3  0.23      Good     E     VS1  56.9    65   327 4.05 4.07 2.31
+## 4  0.29   Premium     I     VS2  62.4    58   334 4.20 4.23 2.63
+## 5  0.31      Good     J     SI2  63.3    58   335 4.34 4.35 2.75
+## 6  0.24 Very Good     J    VVS2  62.8    57   336 3.94 3.96 2.48
+```
+
+---&twocol w1:50% w2:50%
+
+## Simple scatterplot 
+
+***=left
+
+```r
+p1 <- ggplot(diamonds, aes(x = carat, 
+		y = price)) +
+	geom_point()
+p1
 ```
 
 ***=right
-![plot of chunk unnamed-chunk-2](assets/fig/unnamed-chunk-2.png) 
+
+![plot of chunk unnamed-chunk-4](assets/fig/unnamed-chunk-4.png) 
+
+---&twocol w1:50% w2:50%
+
+## Simple scatterplot with facet_wrap
+
+***=left
+
+
+```r
+p1 + facet_wrap(~color)
+```
+
+A simple scatterplot of diamond price by carat, <code>facet_wrap</code> by color
+
+***=right
+
+![plot of chunk unnamed-chunk-6](assets/fig/unnamed-chunk-6.png) 
+
+---&twocol w1:50% w2:50%
+
+## Simple scatterplot with facet_grid
+
+***=left
+
+
+```r
+p1 + facet_grid(~color)
+```
+
+A simple scatterplot of diamond price by carat, <code>facet_grid</code> by color
+
+What's the difference?
+
+***=right
+
+![plot of chunk unnamed-chunk-8](assets/fig/unnamed-chunk-8.png) 
+
+---
+
+## facet_wrap vs facet_grid
+
+- more important for multiple facet variables
+- <code>facet_wrap</code> always has one horizontal facet label on the top
+
+
+```r
+p1 + facet_wrap(~ cut + color)
+```
+
+<img src="assets/fig/unnamed-chunk-9.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" style="display: block; margin: auto;" />
+
+---
+
+## facet_wrap vs facet_grid
+
+- more important for multiple facet variables
+- <code>facet_grid</code> can have both horizontal, vertical facet labels
+
+
+```r
+p1 + facet_grid(cut ~ color)
+```
+
+<img src="assets/fig/unnamed-chunk-10.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" />
+
+---
+
+## facet_wrap vs facet_grid
+
+- order of variables affects position of facets
+- <code>facet_wrap</code> orders facets by position in the call
+
+
+```r
+p1 + facet_wrap(~ color + cut) # same as facet_wrap(color ~ cut)
+```
+
+<img src="assets/fig/unnamed-chunk-11.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" style="display: block; margin: auto;" />
+
+---
+
+## facet_wrap vs facet_grid
+
+- order of variables affects position of facets
+- <code>facet_wrap</code> orders facets by position in the call
+
+
+```r
+p1 + facet_wrap(~ cut + color) # same as facet_wrap(cut ~ color)
+```
+
+<img src="assets/fig/unnamed-chunk-12.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" style="display: block; margin: auto;" />
+
+---
+
+## facet_wrap vs facet_grid
+
+- order of variables affects position of facets
+- <code>facet_grid</code> orders vertical/horizontal facets by left/right of tilde
+
+
+```r
+p1 + facet_grid(cut ~ color) # not the same as facet_grid(~ cut + color)
+```
+
+<img src="assets/fig/unnamed-chunk-13.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" style="display: block; margin: auto;" />
+
+---
+
+## facet_wrap vs facet_grid
+
+- order of variables affects position of facets
+- <code>facet_grid</code> orders vertical/horizontal facets by left/right of tilde
+
+
+```r
+p1 + facet_grid(color ~ cut) # not the same as facet_grid(~ color + cut)
+```
+
+<img src="assets/fig/unnamed-chunk-14.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" style="display: block; margin: auto;" />
+
+---
+
+## facet_wrap vs facet_grid
+
+- both use the <code>scales</code> argument for axes, otherwise fixed
+
+
+```r
+p1 + facet_wrap(~ color + cut, scales = 'free') # or 'free_x', 'free_y' 
+```
+
+<img src="assets/fig/unnamed-chunk-15.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" style="display: block; margin: auto;" />
+
+---
+
+## facet_wrap vs facet_grid
+
+- <code>facet_grid</code> treats <code>scales</code> differently
+
+
+```r
+p1 + facet_grid(color ~ cut, scales = 'free') # or 'free_x', 'free_y' 
+```
+
+<img src="assets/fig/unnamed-chunk-16.png" title="plot of chunk unnamed-chunk-16" alt="plot of chunk unnamed-chunk-16" style="display: block; margin: auto;" />
+
+
+---
+
+## facet_wrap vs facet_grid
+
+- <code>facet_wrap</code> uses the <code>ncol</code> argument
+
+
+```r
+p1 + facet_wrap(~ color + cut, ncol = 7)
+```
+
+<img src="assets/fig/unnamed-chunk-17.png" title="plot of chunk unnamed-chunk-17" alt="plot of chunk unnamed-chunk-17" style="display: block; margin: auto;" />
+
+---
+
+## facet_wrap vs facet_grid
+
+- <code>facet_grid</code> always creates a symmetrical plot
+
+
+```r
+p1 + facet_grid(~ color + cut)
+```
+
+<img src="assets/fig/unnamed-chunk-18.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" style="display: block; margin: auto;" />
+
+---
+
+## A huge advantage of facets...
+
+- Very easy to quickly evaluate a variable by multiple categories
+- Adding some fake variables to diamonds...
+
+```r
+diamonds$fake1 <- sample(c('A', 'B'), nrow(diamonds), replace = T)
+diamonds$fake2 <- sample(c('C', 'D'), nrow(diamonds), replace = T)
+diamonds$fake3 <- sample(c('E', 'F'), nrow(diamonds), replace = T)
+diamonds$fake4 <- sample(c('G', 'H'), nrow(diamonds), replace = T)
+head(diamonds[, grep('fake', names(diamonds))])
+```
+
+```
+##   fake1 fake2 fake3 fake4
+## 1     B     D     E     H
+## 2     A     C     F     G
+## 3     B     D     E     H
+## 4     B     D     E     G
+## 5     A     C     E     G
+## 6     A     C     F     H
+```
+
+
+
+---
+
+## A huge advantage of facets...
+
+
+```r
+p1 + facet_grid(fake1 + fake2 ~ fake3 + fake4)
+```
+
+<img src="assets/fig/unnamed-chunk-21.png" title="plot of chunk unnamed-chunk-21" alt="plot of chunk unnamed-chunk-21" style="display: block; margin: auto;" />
+
+---
+
+## Facet summary
+
+<code>facet_wrap</code> and <code>facet_grid</code> accomplish similar tasks, with slight differences
+
+<code>facet_wrap</code>
+- only horizontal facet labels
+- not symmetric, uses <code>ncol</code>
+- scales affect all facets
+
+<code>facet_grid</code>
+- horizontal/vertical facet labels
+- always symmetric
+- scales only affect outer facets 
+
+---
+
+## Themes
+

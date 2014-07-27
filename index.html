@@ -37,7 +37,7 @@
   </aside>
   <hgroup class="auto-fadein">
     <h1>ggplot2 redux</h1>
-    <h2>random things I like</h2>
+    <h2>random things I like and other stuff</h2>
     <p>Marcus Beck<br/>ORISE post-doc</p>
   </hgroup>
   <article></article>  
@@ -45,27 +45,69 @@
     
 
     <!-- SLIDES -->
-    <slide class="" id="">
+    <slide class="" id="slide-1" style="background:;">
   <hgroup>
     <h2>To cover</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>facet_wrap, facet_grid</li>
+<li>themes, preset and custom</li>
+<li>ggmap</li>
+<li>ggally</li>
+</ul>
+
+<p>What can you do w/ ggplot2 that you can&#39;t do w/ base functions?</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>R Code Chunk Example</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>Facetting is one of the more powerful aspects of ggplot2</p></li>
+<li><p>plot y vs x (or just x) by z, where z is some categorical variable</p></li>
+<li><p>facet_grid or facet_wrap</p></li>
+</ul>
+
+<pre><code class="r">data(diamonds)
+head(diamonds)
+</code></pre>
+
+<pre><code>##   carat       cut color clarity depth table price    x    y    z
+## 1  0.23     Ideal     E     SI2  61.5    55   326 3.95 3.98 2.43
+## 2  0.21   Premium     E     SI1  59.8    61   326 3.89 3.84 2.31
+## 3  0.23      Good     E     VS1  56.9    65   327 4.05 4.07 2.31
+## 4  0.29   Premium     I     VS2  62.4    58   334 4.20 4.23 2.63
+## 5  0.31      Good     J     SI2  63.3    58   335 4.34 4.35 2.75
+## 6  0.24 Very Good     J    VVS2  62.8    57   336 3.94 3.96 2.48
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="">
+  <hgroup>
+    <h2>Simple scatterplot</h2>
     <br/>
   </hgroup>
   <article>
       
-    <div class='left' style='float:left;width:20%'>
-      <ul>
-<li>list</li>
-<li>on the left </li>
-<li>side</li>
-</ul>
+    <div class='left' style='float:left;width:50%'>
+      <pre><code class="r">p1 &lt;- ggplot(diamonds, aes(x = carat, 
+        y = price)) +
+    geom_point()
+p1
+</code></pre>
 
     </div>    
-    <div class='right' style='float:right;width:80%'>
-      <ul>
-<li>list</li>
-<li>on the right</li>
-<li>side</li>
-</ul>
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-4.png" alt="plot of chunk unnamed-chunk-4"> </p>
 
     </div>
   </article>
@@ -73,23 +115,313 @@
 
 <slide class="" id="">
   <hgroup>
-    <h2>R Code Chunk Example</h2>
+    <h2>Simple scatterplot with facet_wrap</h2>
     <br/>
   </hgroup>
   <article>
       
     <div class='left' style='float:left;width:50%'>
-      <p>Some data and a plot:</p>
-
-<pre><code class="r">plot(rnorm(10))
+      <pre><code class="r">p1 + facet_wrap(~color)
 </code></pre>
+
+<p>A simple scatterplot of diamond price by carat, <code>facet_wrap</code> by color</p>
 
     </div>    
     <div class='right' style='float:right;width:50%'>
-      <p><img src="assets/fig/unnamed-chunk-2.png" alt="plot of chunk unnamed-chunk-2"> </p>
+      <p><img src="assets/fig/unnamed-chunk-6.png" alt="plot of chunk unnamed-chunk-6"> </p>
 
     </div>
   </article>
+</slide>
+
+<slide class="" id="">
+  <hgroup>
+    <h2>Simple scatterplot with facet_grid</h2>
+    <br/>
+  </hgroup>
+  <article>
+      
+    <div class='left' style='float:left;width:50%'>
+      <pre><code class="r">p1 + facet_grid(~color)
+</code></pre>
+
+<p>A simple scatterplot of diamond price by carat, <code>facet_grid</code> by color</p>
+
+<p>What&#39;s the difference?</p>
+
+    </div>    
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-8.png" alt="plot of chunk unnamed-chunk-8"> </p>
+
+    </div>
+  </article>
+</slide>
+
+<slide class="" id="slide-6" style="background:;">
+  <hgroup>
+    <h2>facet_wrap vs facet_grid</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>more important for multiple facet variables</li>
+<li><code>facet_wrap</code> always has one horizontal facet label on the top</li>
+</ul>
+
+<pre><code class="r">p1 + facet_wrap(~ cut + color)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-9.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-7" style="background:;">
+  <hgroup>
+    <h2>facet_wrap vs facet_grid</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>more important for multiple facet variables</li>
+<li><code>facet_grid</code> can have both horizontal, vertical facet labels</li>
+</ul>
+
+<pre><code class="r">p1 + facet_grid(cut ~ color)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-10.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-8" style="background:;">
+  <hgroup>
+    <h2>facet_wrap vs facet_grid</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>order of variables affects position of facets</li>
+<li><code>facet_wrap</code> orders facets by position in the call</li>
+</ul>
+
+<pre><code class="r">p1 + facet_wrap(~ color + cut) # same as facet_wrap(color ~ cut)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-11.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-9" style="background:;">
+  <hgroup>
+    <h2>facet_wrap vs facet_grid</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>order of variables affects position of facets</li>
+<li><code>facet_wrap</code> orders facets by position in the call</li>
+</ul>
+
+<pre><code class="r">p1 + facet_wrap(~ cut + color) # same as facet_wrap(cut ~ color)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-12.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-10" style="background:;">
+  <hgroup>
+    <h2>facet_wrap vs facet_grid</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>order of variables affects position of facets</li>
+<li><code>facet_grid</code> orders vertical/horizontal facets by left/right of tilde</li>
+</ul>
+
+<pre><code class="r">p1 + facet_grid(cut ~ color) # not the same as facet_grid(~ cut + color)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-13.png" title="plot of chunk unnamed-chunk-13" alt="plot of chunk unnamed-chunk-13" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-11" style="background:;">
+  <hgroup>
+    <h2>facet_wrap vs facet_grid</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>order of variables affects position of facets</li>
+<li><code>facet_grid</code> orders vertical/horizontal facets by left/right of tilde</li>
+</ul>
+
+<pre><code class="r">p1 + facet_grid(color ~ cut) # not the same as facet_grid(~ color + cut)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-14.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-12" style="background:;">
+  <hgroup>
+    <h2>facet_wrap vs facet_grid</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>both use the <code>scales</code> argument for axes, otherwise fixed</li>
+</ul>
+
+<pre><code class="r">p1 + facet_wrap(~ color + cut, scales = &#39;free&#39;) # or &#39;free_x&#39;, &#39;free_y&#39; 
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-15.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-13" style="background:;">
+  <hgroup>
+    <h2>facet_wrap vs facet_grid</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><code>facet_grid</code> treats <code>scales</code> differently</li>
+</ul>
+
+<pre><code class="r">p1 + facet_grid(color ~ cut, scales = &#39;free&#39;) # or &#39;free_x&#39;, &#39;free_y&#39; 
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-16.png" title="plot of chunk unnamed-chunk-16" alt="plot of chunk unnamed-chunk-16" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-14" style="background:;">
+  <hgroup>
+    <h2>facet_wrap vs facet_grid</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><code>facet_wrap</code> uses the <code>ncol</code> argument</li>
+</ul>
+
+<pre><code class="r">p1 + facet_wrap(~ color + cut, ncol = 7)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-17.png" title="plot of chunk unnamed-chunk-17" alt="plot of chunk unnamed-chunk-17" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-15" style="background:;">
+  <hgroup>
+    <h2>facet_wrap vs facet_grid</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><code>facet_grid</code> always creates a symmetrical plot</li>
+</ul>
+
+<pre><code class="r">p1 + facet_grid(~ color + cut)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-18.png" title="plot of chunk unnamed-chunk-18" alt="plot of chunk unnamed-chunk-18" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-16" style="background:;">
+  <hgroup>
+    <h2>A huge advantage of facets...</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Very easy to quickly evaluate a variable by multiple categories</li>
+<li>Adding some fake variables to diamonds...</li>
+</ul>
+
+<pre><code class="r">diamonds$fake1 &lt;- sample(c(&#39;A&#39;, &#39;B&#39;), nrow(diamonds), replace = T)
+diamonds$fake2 &lt;- sample(c(&#39;C&#39;, &#39;D&#39;), nrow(diamonds), replace = T)
+diamonds$fake3 &lt;- sample(c(&#39;E&#39;, &#39;F&#39;), nrow(diamonds), replace = T)
+diamonds$fake4 &lt;- sample(c(&#39;G&#39;, &#39;H&#39;), nrow(diamonds), replace = T)
+head(diamonds[, grep(&#39;fake&#39;, names(diamonds))])
+</code></pre>
+
+<pre><code>##   fake1 fake2 fake3 fake4
+## 1     B     D     E     H
+## 2     A     C     F     G
+## 3     B     D     E     H
+## 4     B     D     E     G
+## 5     A     C     E     G
+## 6     A     C     F     H
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-17" style="background:;">
+  <hgroup>
+    <h2>A huge advantage of facets...</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">p1 + facet_grid(fake1 + fake2 ~ fake3 + fake4)
+</code></pre>
+
+<p><img src="assets/fig/unnamed-chunk-21.png" title="plot of chunk unnamed-chunk-21" alt="plot of chunk unnamed-chunk-21" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-18" style="background:;">
+  <hgroup>
+    <h2>Facet summary</h2>
+  </hgroup>
+  <article data-timings="">
+    <p><code>facet_wrap</code> and <code>facet_grid</code> accomplish similar tasks, with slight differences</p>
+
+<p><code>facet_wrap</code></p>
+
+<ul>
+<li>only horizontal facet labels</li>
+<li>not symmetric, uses <code>ncol</code></li>
+<li>scales affect all facets</li>
+</ul>
+
+<p><code>facet_grid</code></p>
+
+<ul>
+<li>horizontal/vertical facet labels</li>
+<li>always symmetric</li>
+<li>scales only affect outer facets </li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-19" style="background:;">
+  <hgroup>
+    <h2>Themes</h2>
+  </hgroup>
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
 </slide>
 
     <slide class="backdrop"></slide>
@@ -106,6 +438,108 @@
       <a href="#" target="_self" rel='tooltip' 
         data-slide=2 title='R Code Chunk Example'>
          2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Simple scatterplot'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Simple scatterplot with facet_wrap'>
+         4
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Simple scatterplot with facet_grid'>
+         5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='facet_wrap vs facet_grid'>
+         6
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=7 title='facet_wrap vs facet_grid'>
+         7
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=8 title='facet_wrap vs facet_grid'>
+         8
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=9 title='facet_wrap vs facet_grid'>
+         9
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=10 title='facet_wrap vs facet_grid'>
+         10
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=11 title='facet_wrap vs facet_grid'>
+         11
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=12 title='facet_wrap vs facet_grid'>
+         12
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=13 title='facet_wrap vs facet_grid'>
+         13
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=14 title='facet_wrap vs facet_grid'>
+         14
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=15 title='facet_wrap vs facet_grid'>
+         15
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=16 title='A huge advantage of facets...'>
+         16
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=17 title='A huge advantage of facets...'>
+         17
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=18 title='Facet summary'>
+         18
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=19 title='Themes'>
+         19
       </a>
     </li>
   </ul>
