@@ -107,7 +107,7 @@ p1
 
     </div>    
     <div class='right' style='float:right;width:50%'>
-      <p><img src="assets/fig/unnamed-chunk-4.png" alt="plot of chunk unnamed-chunk-4"> </p>
+      <p><img src="assets/fig/unnamed-chunk-4.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" /></p>
 
     </div>
   </article>
@@ -128,7 +128,7 @@ p1
 
     </div>    
     <div class='right' style='float:right;width:50%'>
-      <p><img src="assets/fig/unnamed-chunk-6.png" alt="plot of chunk unnamed-chunk-6"> </p>
+      <p><img src="assets/fig/unnamed-chunk-6.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" /></p>
 
     </div>
   </article>
@@ -151,7 +151,7 @@ p1
 
     </div>    
     <div class='right' style='float:right;width:50%'>
-      <p><img src="assets/fig/unnamed-chunk-8.png" alt="plot of chunk unnamed-chunk-8"> </p>
+      <p><img src="assets/fig/unnamed-chunk-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" /></p>
 
     </div>
   </article>
@@ -361,12 +361,12 @@ head(diamonds[, grep(&#39;fake&#39;, names(diamonds))])
 </code></pre>
 
 <pre><code>##   fake1 fake2 fake3 fake4
-## 1     B     D     E     H
-## 2     A     C     F     G
-## 3     B     D     E     H
-## 4     B     D     E     G
-## 5     A     C     E     G
-## 6     A     C     F     H
+## 1     B     C     F     G
+## 2     A     C     E     H
+## 3     A     C     E     H
+## 4     A     C     F     H
+## 5     B     D     E     H
+## 6     B     D     F     H
 </code></pre>
 
   </article>
@@ -407,16 +407,236 @@ head(diamonds[, grep(&#39;fake&#39;, names(diamonds))])
 <ul>
 <li>horizontal/vertical facet labels</li>
 <li>always symmetric</li>
-<li>scales only affect outer facets </li>
+<li><p>scales only affect outer facets </p>
+
+<ul>
+<li>Not apparent why you would use one over the other...</li>
+</ul></li>
 </ul>
 
   </article>
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-19" style="background:;">
+<slide class="" id="">
   <hgroup>
     <h2>Themes</h2>
+    <br/>
+  </hgroup>
+  <article>
+      
+    <div class='left' style='float:left;width:50%'>
+      <ul>
+<li>ggplot2 creates plots with a given theme, default is <code>theme_grey()</code></li>
+</ul>
+
+<pre><code class="r">data(iris)
+p2 &lt;- ggplot(iris, aes(x = Sepal.Length, 
+        y = Sepal.Width)) +
+    geom_point()
+p2
+</code></pre>
+
+    </div>    
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-23.png" title="plot of chunk unnamed-chunk-23" alt="plot of chunk unnamed-chunk-23" style="display: block; margin: auto;" /></p>
+
+    </div>
+  </article>
+</slide>
+
+<slide class="" id="">
+  <hgroup>
+    <h2>Themes</h2>
+    <br/>
+  </hgroup>
+  <article>
+      
+    <div class='left' style='float:left;width:50%'>
+      <ul>
+<li>Other pre-loaded themes are <code>theme_bw()</code> and...</li>
+</ul>
+
+<pre><code class="r">p2 + theme_bw() 
+</code></pre>
+
+    </div>    
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-25.png" title="plot of chunk unnamed-chunk-25" alt="plot of chunk unnamed-chunk-25" style="display: block; margin: auto;" /></p>
+
+    </div>
+  </article>
+</slide>
+
+<slide class="" id="">
+  <hgroup>
+    <h2>Themes</h2>
+    <br/>
+  </hgroup>
+  <article>
+      
+    <div class='left' style='float:left;width:50%'>
+      <ul>
+<li><code>theme_classic()</code></li>
+</ul>
+
+<pre><code class="r">p2 + theme_classic()    
+</code></pre>
+
+    </div>    
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-27.png" title="plot of chunk unnamed-chunk-27" alt="plot of chunk unnamed-chunk-27" style="display: block; margin: auto;" /></p>
+
+    </div>
+  </article>
+</slide>
+
+<slide class="" id="slide-22" style="background:;">
+  <hgroup>
+    <h2>Themes</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>Themes are simply complete calls to the <code>ggplot2::theme</code> function</li>
+<li>A custom theme is easily made</li>
+</ul>
+
+<pre><code class="r">ugly_theme &lt;- theme(
+    panel.background = element_rect(fill = &quot;green&quot;), 
+    axis.line = element_line(size = 3, colour = &quot;red&quot;, linetype = &quot;dotted&quot;),
+    axis.text = element_text(colour = &quot;blue&quot;),
+    axis.ticks.length = unit(.85, &quot;cm&quot;)
+    )
+</code></pre>
+
+<ul>
+<li>Complete list of theme options <a href = http://docs.ggplot2.org/current/theme.html>here</a></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="">
+  <hgroup>
+    <h2>Themes</h2>
+    <br/>
+  </hgroup>
+  <article>
+      
+    <div class='left' style='float:left;width:50%'>
+      <ul>
+<li>Great success!</li>
+</ul>
+
+<pre><code class="r">p2 + ugly_theme
+</code></pre>
+
+    </div>    
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-30.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" /></p>
+
+    </div>
+  </article>
+</slide>
+
+<slide class="" id="slide-24" style="background:;">
+  <hgroup>
+    <h2>Themes</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>The ggthemes library provides additional themes</li>
+</ul>
+
+<pre><code class="r">library(devtools)
+install_github(&#39;ggthemes&#39;, username = &#39;jrnold&#39;)
+library(ggthemes)   
+</code></pre>
+
+<ul>
+<li>Check the <a href = https://github.com/jrnold/ggthemes>repo</a> on Github for more info</li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="">
+  <hgroup>
+    <h2>Themes</h2>
+    <br/>
+  </hgroup>
+  <article>
+      
+    <div class='left' style='float:left;width:50%'>
+      <ul>
+<li>The ggthemes library provides additional themes</li>
+<li>Wall Street Journal theme</li>
+</ul>
+
+<pre><code class="r">p2 + theme_wsj()
+</code></pre>
+
+    </div>    
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-33.png" title="plot of chunk unnamed-chunk-33" alt="plot of chunk unnamed-chunk-33" style="display: block; margin: auto;" /></p>
+
+    </div>
+  </article>
+</slide>
+
+<slide class="" id="">
+  <hgroup>
+    <h2>Themes</h2>
+    <br/>
+  </hgroup>
+  <article>
+      
+    <div class='left' style='float:left;width:50%'>
+      <ul>
+<li>The ggthemes library provides additional themes</li>
+<li>Google docs theme</li>
+</ul>
+
+<pre><code class="r">p2 + theme_gdocs()
+</code></pre>
+
+    </div>    
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-35.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" style="display: block; margin: auto;" /></p>
+
+    </div>
+  </article>
+</slide>
+
+<slide class="" id="">
+  <hgroup>
+    <h2>Themes</h2>
+    <br/>
+  </hgroup>
+  <article>
+      
+    <div class='left' style='float:left;width:50%'>
+      <ul>
+<li>The ggthemes library provides additional themes</li>
+<li>Even this old school Excel theme...</li>
+</ul>
+
+<pre><code class="r">p2 + theme_excel()
+</code></pre>
+
+    </div>    
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-37.png" title="plot of chunk unnamed-chunk-37" alt="plot of chunk unnamed-chunk-37" style="display: block; margin: auto;" /></p>
+
+    </div>
+  </article>
+</slide>
+
+<slide class="" id="slide-28" style="background:;">
+  <hgroup>
+    <h2>Easy mapping with ggplot2</h2>
   </hgroup>
   <article data-timings="">
     
@@ -540,6 +760,60 @@ head(diamonds[, grep(&#39;fake&#39;, names(diamonds))])
       <a href="#" target="_self" rel='tooltip' 
         data-slide=19 title='Themes'>
          19
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=20 title='Themes'>
+         20
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=21 title='Themes'>
+         21
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=22 title='Themes'>
+         22
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=23 title='Themes'>
+         23
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=24 title='Themes'>
+         24
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=25 title='Themes'>
+         25
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=26 title='Themes'>
+         26
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=27 title='Themes'>
+         27
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=28 title='Easy mapping with ggplot2'>
+         28
       </a>
     </li>
   </ul>

@@ -12,8 +12,8 @@ mode        : selfcontained # {standalone, draft}
 
 ---
 
-```{r, echo = F}
-opts_chunk$set(cache = T) 
+```{r, echo = F, cache = F}
+opts_chunk$set(cache = T, fig.align = 'center') 
 ```
 
 ## To cover
@@ -248,7 +248,177 @@ p1 + facet_grid(fake1 + fake2 ~ fake3 + fake4)
 - always symmetric
 - scales only affect outer facets 
 
+ - Not apparent why you would use one over the other...
+
+---&twocol w1:50% w2:50%
+
+## Themes
+
+***=left
+
+- ggplot2 creates plots with a given theme, default is <code>theme_grey()</code>
+
+```{r fig.align = 'center', fig.height = 6, fig.width = 6, eval = F}
+data(iris)
+p2 <- ggplot(iris, aes(x = Sepal.Length, 
+		y = Sepal.Width)) +
+	geom_point()
+p2
+```
+
+***=right
+
+```{r fig.align = 'center', fig.height = 6, fig.width = 6, echo = F}
+data(iris)
+p2 <- ggplot(iris, aes(x = Sepal.Length, 
+		y = Sepal.Width, colour = Species)) +
+	geom_point(size = 4)
+p2
+```
+
+---&twocol w1:50% w2:50%
+
+## Themes
+
+***=left
+
+- Other pre-loaded themes are <code>theme_bw()</code> and...
+
+```{r fig.align = 'center', fig.height = 6, fig.width = 6, eval = F}
+p2 + theme_bw()	
+```
+
+***=right
+
+```{r fig.align = 'center', fig.height = 6, fig.width = 6, echo = F}
+p2 + theme_bw()	
+```
+
+---&twocol w1:50% w2:50%
+
+## Themes
+
+***=left
+
+- <code>theme_classic()</code>
+
+```{r fig.align = 'center', fig.height = 6, fig.width = 6, eval = F}
+p2 + theme_classic()	
+```
+
+***=right
+
+```{r fig.align = 'center', fig.height = 6, fig.width = 6, echo = F}
+p2 + theme_classic()	
+```
+
 ---
 
 ## Themes
 
+- Themes are simply complete calls to the <code>ggplot2::theme</code> function
+- A custom theme is easily made
+
+```{r}
+ugly_theme <- theme(
+	panel.background = element_rect(fill = "green"), 
+	axis.line = element_line(size = 3, colour = "red", linetype = "dotted"),
+	axis.text = element_text(colour = "blue"),
+	axis.ticks.length = unit(.85, "cm")
+	)
+```
+
+- Complete list of theme options <a href = http://docs.ggplot2.org/current/theme.html>here</a>
+
+---&twocol w1:50% w2:50%
+
+## Themes
+
+***=left
+
+- Great success!
+
+```{r fig.width = 6, fig.height = 6, eval = F}
+p2 + ugly_theme
+```
+
+***=right
+
+```{r fig.width = 6, fig.height = 6, echo = F}
+p2 + ugly_theme
+```
+
+---
+
+## Themes
+
+- The ggthemes library provides additional themes
+
+```{r eval = F}
+library(devtools)
+install_github('ggthemes', username = 'jrnold')
+library(ggthemes)	
+```
+
+- Check the <a href = https://github.com/jrnold/ggthemes>repo</a> on Github for more info
+
+---&twocol w1:50% w2:50%
+
+## Themes
+
+***=left
+
+- The ggthemes library provides additional themes
+- Wall Street Journal theme
+
+```{r fig.width = 6, fig.height = 6, eval = F}
+p2 + theme_wsj()
+```
+
+***=right
+
+```{r fig.width = 6, fig.height = 6, echo = F}
+p2 + theme_wsj()
+```
+
+---&twocol w1:50% w2:50%
+
+## Themes
+
+***=left
+
+- The ggthemes library provides additional themes
+- Google docs theme
+
+```{r fig.width = 6, fig.height = 6, eval = F}
+p2 + theme_gdocs()
+```
+
+***=right
+
+```{r fig.width = 6, fig.height = 6, echo = F}
+p2 + theme_gdocs()
+```
+
+---&twocol w1:50% w2:50%
+
+## Themes
+
+***=left
+
+- The ggthemes library provides additional themes
+- Even this old school Excel theme...
+
+```{r fig.width = 6, fig.height = 6, eval = F}
+p2 + theme_excel()
+```
+
+***=right
+
+```{r fig.width = 6, fig.height = 6, echo = F}
+p2 + theme_excel()
+```
+
+---
+
+## Easy mapping with ggplot2

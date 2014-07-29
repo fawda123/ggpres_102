@@ -9,8 +9,10 @@ library(knitr)
 library(reshape2) 
 library(xtable) 
 library(ggplot2) 
+library(grid)
 library(slidify)
 library(slidifyLibraries)
+library(ggthemes)	
 
 # functions to use
 source('funcs.r')

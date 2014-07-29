@@ -64,7 +64,7 @@ p1
 
 ***=right
 
-![plot of chunk unnamed-chunk-4](assets/fig/unnamed-chunk-4.png) 
+<img src="assets/fig/unnamed-chunk-4.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" style="display: block; margin: auto;" />
 
 ---&twocol w1:50% w2:50%
 
@@ -81,7 +81,7 @@ A simple scatterplot of diamond price by carat, <code>facet_wrap</code> by color
 
 ***=right
 
-![plot of chunk unnamed-chunk-6](assets/fig/unnamed-chunk-6.png) 
+<img src="assets/fig/unnamed-chunk-6.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" style="display: block; margin: auto;" />
 
 ---&twocol w1:50% w2:50%
 
@@ -100,7 +100,7 @@ What's the difference?
 
 ***=right
 
-![plot of chunk unnamed-chunk-8](assets/fig/unnamed-chunk-8.png) 
+<img src="assets/fig/unnamed-chunk-8.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" style="display: block; margin: auto;" />
 
 ---
 
@@ -256,12 +256,12 @@ head(diamonds[, grep('fake', names(diamonds))])
 
 ```
 ##   fake1 fake2 fake3 fake4
-## 1     B     D     E     H
-## 2     A     C     F     G
-## 3     B     D     E     H
-## 4     B     D     E     G
-## 5     A     C     E     G
-## 6     A     C     F     H
+## 1     B     C     F     G
+## 2     A     C     E     H
+## 3     A     C     E     H
+## 4     A     C     F     H
+## 5     B     D     E     H
+## 6     B     D     F     H
 ```
 
 
@@ -293,7 +293,168 @@ p1 + facet_grid(fake1 + fake2 ~ fake3 + fake4)
 - always symmetric
 - scales only affect outer facets 
 
+ - Not apparent why you would use one over the other...
+
+---&twocol w1:50% w2:50%
+
+## Themes
+
+***=left
+
+- ggplot2 creates plots with a given theme, default is <code>theme_grey()</code>
+
+
+```r
+data(iris)
+p2 <- ggplot(iris, aes(x = Sepal.Length, 
+		y = Sepal.Width)) +
+	geom_point()
+p2
+```
+
+***=right
+
+<img src="assets/fig/unnamed-chunk-23.png" title="plot of chunk unnamed-chunk-23" alt="plot of chunk unnamed-chunk-23" style="display: block; margin: auto;" />
+
+---&twocol w1:50% w2:50%
+
+## Themes
+
+***=left
+
+- Other pre-loaded themes are <code>theme_bw()</code> and...
+
+
+```r
+p2 + theme_bw()	
+```
+
+***=right
+
+<img src="assets/fig/unnamed-chunk-25.png" title="plot of chunk unnamed-chunk-25" alt="plot of chunk unnamed-chunk-25" style="display: block; margin: auto;" />
+
+---&twocol w1:50% w2:50%
+
+## Themes
+
+***=left
+
+- <code>theme_classic()</code>
+
+
+```r
+p2 + theme_classic()	
+```
+
+***=right
+
+<img src="assets/fig/unnamed-chunk-27.png" title="plot of chunk unnamed-chunk-27" alt="plot of chunk unnamed-chunk-27" style="display: block; margin: auto;" />
+
 ---
 
 ## Themes
 
+- Themes are simply complete calls to the <code>ggplot2::theme</code> function
+- A custom theme is easily made
+
+
+```r
+ugly_theme <- theme(
+	panel.background = element_rect(fill = "green"), 
+	axis.line = element_line(size = 3, colour = "red", linetype = "dotted"),
+	axis.text = element_text(colour = "blue"),
+	axis.ticks.length = unit(.85, "cm")
+	)
+```
+
+- Complete list of theme options <a href = http://docs.ggplot2.org/current/theme.html>here</a>
+
+---&twocol w1:50% w2:50%
+
+## Themes
+
+***=left
+
+- Great success!
+
+
+```r
+p2 + ugly_theme
+```
+
+***=right
+
+<img src="assets/fig/unnamed-chunk-30.png" title="plot of chunk unnamed-chunk-30" alt="plot of chunk unnamed-chunk-30" style="display: block; margin: auto;" />
+
+---
+
+## Themes
+
+- The ggthemes library provides additional themes
+
+
+```r
+library(devtools)
+install_github('ggthemes', username = 'jrnold')
+library(ggthemes)	
+```
+
+- Check the <a href = https://github.com/jrnold/ggthemes>repo</a> on Github for more info
+
+---&twocol w1:50% w2:50%
+
+## Themes
+
+***=left
+
+- The ggthemes library provides additional themes
+- Wall Street Journal theme
+
+
+```r
+p2 + theme_wsj()
+```
+
+***=right
+
+<img src="assets/fig/unnamed-chunk-33.png" title="plot of chunk unnamed-chunk-33" alt="plot of chunk unnamed-chunk-33" style="display: block; margin: auto;" />
+
+---&twocol w1:50% w2:50%
+
+## Themes
+
+***=left
+
+- The ggthemes library provides additional themes
+- Google docs theme
+
+
+```r
+p2 + theme_gdocs()
+```
+
+***=right
+
+<img src="assets/fig/unnamed-chunk-35.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" style="display: block; margin: auto;" />
+
+---&twocol w1:50% w2:50%
+
+## Themes
+
+***=left
+
+- The ggthemes library provides additional themes
+- Even this old school Excel theme...
+
+
+```r
+p2 + theme_excel()
+```
+
+***=right
+
+<img src="assets/fig/unnamed-chunk-37.png" title="plot of chunk unnamed-chunk-37" alt="plot of chunk unnamed-chunk-37" style="display: block; margin: auto;" />
+
+---
+
+## Easy mapping with ggplot2
