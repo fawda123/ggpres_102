@@ -421,4 +421,18 @@ p2 + theme_excel()
 
 ---
 
-## Easy mapping with ggplot2
+## Easy mapping with ggmap
+
+<q>The basic idea [of] ggmap is to take a downloaded map image, plot it as a context layer using ggplot2, and then plot additional content layers of data, statistics, or models on top of the map.</q>
+
+<a href = "http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf">Kahle and Wickham 2011</a>
+
+## Easy mapping wiht ggmap
+
+- download the images and format for plotting, done with <code>get_map</code>
+- make the plot, done with <code>ggmap</code>
+
+```{r}
+install.packages('ggmap')
+
+```

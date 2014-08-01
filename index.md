@@ -256,12 +256,12 @@ head(diamonds[, grep('fake', names(diamonds))])
 
 ```
 ##   fake1 fake2 fake3 fake4
-## 1     B     C     F     G
-## 2     A     C     E     H
-## 3     A     C     E     H
-## 4     A     C     F     H
-## 5     B     D     E     H
-## 6     B     D     F     H
+## 1     B     D     E     H
+## 2     A     D     E     G
+## 3     B     D     E     H
+## 4     B     D     F     H
+## 5     A     C     F     G
+## 6     B     D     E     H
 ```
 
 
@@ -457,4 +457,8 @@ p2 + theme_excel()
 
 ---
 
-## Easy mapping with ggplot2
+## Easy mapping with ggmap
+
+<q>The basic idea [of] ggmap is to take a downloaded map image, plot it as a context layer using ggplot2, and then plot additional content layers of data, statistics, or models on top of the map.</q> <a href = "http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf">Kahle and Wickham 2011</a>
+- download the images and format for plotting, done with <code>get_map</code>
+- make the plot, done with <code>ggmap</code>
