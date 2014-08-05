@@ -344,8 +344,33 @@ p2 + ugly_theme
 
 ***=right
 
-```{r fig.width = 6, fig.height = 6, echo = F}
+```{r fig.width = 6, fig.height = 6, echo = F, cache = F}
 p2 + ugly_theme
+```
+
+---
+
+## Themes
+
+- The user-defined theme can also be set as default by updating an existing theme
+
+```{r eval = F}
+ugly_default <- function(){
+	theme_grey() %+replace%
+	theme(
+		panel.background = element_rect(fill = "green"), 
+		axis.line = element_line(size = 3, colour = "red", linetype = "dotted"),
+		axis.text = element_text(colour = "blue"),
+		axis.ticks.length = unit(.85, "cm")
+		)
+	}
+theme_set(ugly_default())
+
+p2
+```
+
+```{r echo = F}
+theme_set(theme_grey())
 ```
 
 ---
@@ -423,16 +448,129 @@ p2 + theme_excel()
 
 ## Easy mapping with ggmap
 
-<q>The basic idea [of] ggmap is to take a downloaded map image, plot it as a context layer using ggplot2, and then plot additional content layers of data, statistics, or models on top of the map.</q>
 
-<a href = "http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf">Kahle and Wickham 2011</a>
+<q><font size="6">The basic idea of ggmap is to take a downloaded map image, plot it as a context layer using ggplot2, and then plot additional content layers of data, statistics, or models on top of the map.</font></q>
 
-## Easy mapping wiht ggmap
+<div align="right"><a href = "http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf">Kahle and Wickham 2011</a></div>
 
+---
+
+## Easy mapping with ggmap
+
+- install/load ggmap
 - download the images and format for plotting, done with <code>get_map</code>
-- make the plot, done with <code>ggmap</code>
 
-```{r}
+```{r eval = F}
 install.packages('ggmap')
+library(ggmap)
 
+# get map by location
+loc <- 'Environmental Protection Agency, 1 Sabine Drive, Gulf Breeze, FL'
+my_map <- get_map(
+	location = loc, 
+	source = 'google', 
+	maptype = 'terrain', 
+	zoom = 13
+	)
 ```
+
+```{r echo = F, message = F, results = 'hide', fig.align = 'center', fig.height=5}
+library(ggmap)
+
+# location
+loc <- 'Environmental Protection Agency, 1 Sabine Drive, Gulf Breeze, FL'
+# coordinates
+my_map <- get_map(
+	location = loc, 
+	source = 'google', 
+	maptype = 'terrain', 
+	zoom = 13
+	)
+```
+
+---&twocol w1:50% w2:50%
+
+## Easy mapping with ggmap
+
+***=left
+
+- plot with <code>ggmap</code>
+
+```{r eval = F}
+ggmap(my_map, extent = 'panel')
+```
+
+***=right
+
+```{r echo = F, fig.align = 'center', fig.height=7,  cache = F}
+ggmap(my_map, extent = 'panel')
+```
+
+---&twocol w1:50% w2:50%
+
+## Easy mapping with ggmap
+
+***=left
+
+- Now add some regular ggplot2 content layers
+
+```{r eval = F}
+pts <- data.frame(
+	lon = c(-87.1930, -87.2050, -87.1571),
+	lat = c(30.3473, 30.3406, 30.3380),
+	lab = c('Site 1', 'Site 2', 'Home')
+	)
+ggmap(my_map, extent = 'panel',
+	base_layer = ggplot(pts, 
+			aes(x = lon, y = lat))) +
+		geom_text(aes(label = lab))
+```
+
+***=right
+
+```{r echo = F, fig.align = 'center', fig.height=7}
+pts <- data.frame(
+	lon = c(-87.1930, -87.2050, -87.1571),
+	lat = c(30.3473, 30.3406, 30.3380),
+	lab = c('Site 1', 'Site 2', 'Home')
+	)
+ggmap(my_map, extent = 'panel',
+	base_layer = ggplot(pts, 
+			aes(x = lon, y = lat))) +
+		geom_text(aes(label = lab))
+```
+
+---&twocol w1:50% w2:50%
+
+## Easy mapping with ggmap
+
+***=left
+
+- Additional map types
+- See <a href = http://cran.r-project.org/web/packages/ggmap/ggmap.pdf>documentation</a> for full list of options
+
+```{r eval = F}
+my_map <- get_map(
+	location = loc, 
+	source = 'google', 
+	maptype = 'satellite', 
+	zoom = 13
+	)
+ggmap(my_map, extent = 'panel')
+```
+
+***=right
+
+```{r echo = F, fig.align = 'center', fig.height=7,  message = F, results = 'hide'}
+my_map <- get_map(
+	location = loc, 
+	source = 'google', 
+	maptype = 'satellite', 
+	zoom = 13
+	)
+ggmap(my_map, extent = 'panel')
+```
+
+---
+
+## ggally

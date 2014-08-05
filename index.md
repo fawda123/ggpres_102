@@ -390,6 +390,30 @@ p2 + ugly_theme
 
 ## Themes
 
+- The user-defined theme can also be set as default by updating an existing theme
+
+
+```r
+ugly_default <- function(){
+	theme_grey() %+replace%
+	theme(
+		panel.background = element_rect(fill = "green"), 
+		axis.line = element_line(size = 3, colour = "red", linetype = "dotted"),
+		axis.text = element_text(colour = "blue"),
+		axis.ticks.length = unit(.85, "cm")
+		)
+	}
+theme_set(ugly_default())
+
+p2
+```
+
+
+
+---
+
+## Themes
+
 - The ggthemes library provides additional themes
 
 
@@ -417,7 +441,7 @@ p2 + theme_wsj()
 
 ***=right
 
-<img src="assets/fig/unnamed-chunk-33.png" title="plot of chunk unnamed-chunk-33" alt="plot of chunk unnamed-chunk-33" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-35.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" style="display: block; margin: auto;" />
 
 ---&twocol w1:50% w2:50%
 
@@ -435,7 +459,7 @@ p2 + theme_gdocs()
 
 ***=right
 
-<img src="assets/fig/unnamed-chunk-35.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-37.png" title="plot of chunk unnamed-chunk-37" alt="plot of chunk unnamed-chunk-37" style="display: block; margin: auto;" />
 
 ---&twocol w1:50% w2:50%
 
@@ -453,12 +477,107 @@ p2 + theme_excel()
 
 ***=right
 
-<img src="assets/fig/unnamed-chunk-37.png" title="plot of chunk unnamed-chunk-37" alt="plot of chunk unnamed-chunk-37" style="display: block; margin: auto;" />
+<img src="assets/fig/unnamed-chunk-39.png" title="plot of chunk unnamed-chunk-39" alt="plot of chunk unnamed-chunk-39" style="display: block; margin: auto;" />
 
 ---
 
 ## Easy mapping with ggmap
 
-<q>The basic idea [of] ggmap is to take a downloaded map image, plot it as a context layer using ggplot2, and then plot additional content layers of data, statistics, or models on top of the map.</q> <a href = "http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf">Kahle and Wickham 2011</a>
+
+<q><font size="6">The basic idea of ggmap is to take a downloaded map image, plot it as a context layer using ggplot2, and then plot additional content layers of data, statistics, or models on top of the map.</font></q>
+
+<div align="right"><a href = "http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf">Kahle and Wickham 2011</a></div>
+
+---
+
+## Easy mapping with ggmap
+
+- install/load ggmap
 - download the images and format for plotting, done with <code>get_map</code>
-- make the plot, done with <code>ggmap</code>
+
+
+```r
+install.packages('ggmap')
+library(ggmap)
+
+# get map by location
+loc <- 'Environmental Protection Agency, 1 Sabine Drive, Gulf Breeze, FL'
+my_map <- get_map(
+	location = loc, 
+	source = 'google', 
+	maptype = 'terrain', 
+	zoom = 13
+	)
+```
+
+
+
+---&twocol w1:50% w2:50%
+
+## Easy mapping with ggmap
+
+***=left
+
+- plot with <code>ggmap</code>
+
+
+```r
+ggmap(my_map, extent = 'panel')
+```
+
+***=right
+
+<img src="assets/fig/unnamed-chunk-43.png" title="plot of chunk unnamed-chunk-43" alt="plot of chunk unnamed-chunk-43" style="display: block; margin: auto;" />
+
+---&twocol w1:50% w2:50%
+
+## Easy mapping with ggmap
+
+***=left
+
+- Now add some regular ggplot2 content layers
+
+
+```r
+pts <- data.frame(
+	lon = c(-87.1930, -87.2050, -87.1571),
+	lat = c(30.3473, 30.3406, 30.3380),
+	lab = c('Site 1', 'Site 2', 'Home')
+	)
+ggmap(my_map, extent = 'panel',
+	base_layer = ggplot(pts, 
+			aes(x = lon, y = lat))) +
+		geom_text(aes(label = lab))
+```
+
+***=right
+
+<img src="assets/fig/unnamed-chunk-45.png" title="plot of chunk unnamed-chunk-45" alt="plot of chunk unnamed-chunk-45" style="display: block; margin: auto;" />
+
+---&twocol w1:50% w2:50%
+
+## Easy mapping with ggmap
+
+***=left
+
+- Additional map types
+- See <a href = http://cran.r-project.org/web/packages/ggmap/ggmap.pdf>documentation</a> for full list of options
+
+
+```r
+my_map <- get_map(
+	location = loc, 
+	source = 'google', 
+	maptype = 'satellite', 
+	zoom = 13
+	)
+ggmap(my_map, extent = 'panel')
+```
+
+***=right
+
+<img src="assets/fig/unnamed-chunk-47.png" title="plot of chunk unnamed-chunk-47" alt="plot of chunk unnamed-chunk-47" style="display: block; margin: auto;" />
+
+---
+
+## ggally

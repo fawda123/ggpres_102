@@ -546,6 +546,33 @@ p2
   </hgroup>
   <article data-timings="">
     <ul>
+<li>The user-defined theme can also be set as default by updating an existing theme</li>
+</ul>
+
+<pre><code class="r">ugly_default &lt;- function(){
+    theme_grey() %+replace%
+    theme(
+        panel.background = element_rect(fill = &quot;green&quot;), 
+        axis.line = element_line(size = 3, colour = &quot;red&quot;, linetype = &quot;dotted&quot;),
+        axis.text = element_text(colour = &quot;blue&quot;),
+        axis.ticks.length = unit(.85, &quot;cm&quot;)
+        )
+    }
+theme_set(ugly_default())
+
+p2
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-25" style="background:;">
+  <hgroup>
+    <h2>Themes</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
 <li>The ggthemes library provides additional themes</li>
 </ul>
 
@@ -580,7 +607,7 @@ library(ggthemes)
 
     </div>    
     <div class='right' style='float:right;width:50%'>
-      <p><img src="assets/fig/unnamed-chunk-33.png" title="plot of chunk unnamed-chunk-33" alt="plot of chunk unnamed-chunk-33" style="display: block; margin: auto;" /></p>
+      <p><img src="assets/fig/unnamed-chunk-35.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" style="display: block; margin: auto;" /></p>
 
     </div>
   </article>
@@ -604,7 +631,7 @@ library(ggthemes)
 
     </div>    
     <div class='right' style='float:right;width:50%'>
-      <p><img src="assets/fig/unnamed-chunk-35.png" title="plot of chunk unnamed-chunk-35" alt="plot of chunk unnamed-chunk-35" style="display: block; margin: auto;" /></p>
+      <p><img src="assets/fig/unnamed-chunk-37.png" title="plot of chunk unnamed-chunk-37" alt="plot of chunk unnamed-chunk-37" style="display: block; margin: auto;" /></p>
 
     </div>
   </article>
@@ -628,24 +655,142 @@ library(ggthemes)
 
     </div>    
     <div class='right' style='float:right;width:50%'>
-      <p><img src="assets/fig/unnamed-chunk-37.png" title="plot of chunk unnamed-chunk-37" alt="plot of chunk unnamed-chunk-37" style="display: block; margin: auto;" /></p>
+      <p><img src="assets/fig/unnamed-chunk-39.png" title="plot of chunk unnamed-chunk-39" alt="plot of chunk unnamed-chunk-39" style="display: block; margin: auto;" /></p>
 
     </div>
   </article>
 </slide>
 
-<slide class="" id="slide-28" style="background:;">
+<slide class="" id="slide-29" style="background:;">
   <hgroup>
     <h2>Easy mapping with ggmap</h2>
   </hgroup>
   <article data-timings="">
-    <p><q>The basic idea [of] ggmap is to take a downloaded map image, plot it as a context layer using ggplot2, and then plot additional content layers of data, statistics, or models on top of the map.</q> <a href = "http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf">Kahle and Wickham 2011</a></p>
+    <p><q><font size="6">The basic idea of ggmap is to take a downloaded map image, plot it as a context layer using ggplot2, and then plot additional content layers of data, statistics, or models on top of the map.</font></q></p>
 
-<ul>
+<div align="right"><a href = "http://journal.r-project.org/archive/2013-1/kahle-wickham.pdf">Kahle and Wickham 2011</a></div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-30" style="background:;">
+  <hgroup>
+    <h2>Easy mapping with ggmap</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li>install/load ggmap</li>
 <li>download the images and format for plotting, done with <code>get_map</code></li>
-<li>make the plot, done with <code>ggmap</code></li>
 </ul>
 
+<pre><code class="r">install.packages(&#39;ggmap&#39;)
+library(ggmap)
+
+# get map by location
+loc &lt;- &#39;Environmental Protection Agency, 1 Sabine Drive, Gulf Breeze, FL&#39;
+my_map &lt;- get_map(
+    location = loc, 
+    source = &#39;google&#39;, 
+    maptype = &#39;terrain&#39;, 
+    zoom = 13
+    )
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="">
+  <hgroup>
+    <h2>Easy mapping with ggmap</h2>
+    <br/>
+  </hgroup>
+  <article>
+      
+    <div class='left' style='float:left;width:50%'>
+      <ul>
+<li>plot with <code>ggmap</code></li>
+</ul>
+
+<pre><code class="r">ggmap(my_map, extent = &#39;panel&#39;)
+</code></pre>
+
+    </div>    
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-43.png" title="plot of chunk unnamed-chunk-43" alt="plot of chunk unnamed-chunk-43" style="display: block; margin: auto;" /></p>
+
+    </div>
+  </article>
+</slide>
+
+<slide class="" id="">
+  <hgroup>
+    <h2>Easy mapping with ggmap</h2>
+    <br/>
+  </hgroup>
+  <article>
+      
+    <div class='left' style='float:left;width:50%'>
+      <ul>
+<li>Now add some regular ggplot2 content layers</li>
+</ul>
+
+<pre><code class="r">pts &lt;- data.frame(
+    lon = c(-87.1930, -87.2050, -87.1571),
+    lat = c(30.3473, 30.3406, 30.3380),
+    lab = c(&#39;Site 1&#39;, &#39;Site 2&#39;, &#39;Home&#39;)
+    )
+ggmap(my_map, extent = &#39;panel&#39;,
+    base_layer = ggplot(pts, 
+            aes(x = lon, y = lat))) +
+        geom_text(aes(label = lab))
+</code></pre>
+
+    </div>    
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-45.png" title="plot of chunk unnamed-chunk-45" alt="plot of chunk unnamed-chunk-45" style="display: block; margin: auto;" /></p>
+
+    </div>
+  </article>
+</slide>
+
+<slide class="" id="">
+  <hgroup>
+    <h2>Easy mapping with ggmap</h2>
+    <br/>
+  </hgroup>
+  <article>
+      
+    <div class='left' style='float:left;width:50%'>
+      <ul>
+<li>Additional map types</li>
+<li>See <a href = http://cran.r-project.org/web/packages/ggmap/ggmap.pdf>documentation</a> for full list of options</li>
+</ul>
+
+<pre><code class="r">my_map &lt;- get_map(
+    location = loc, 
+    source = &#39;google&#39;, 
+    maptype = &#39;satellite&#39;, 
+    zoom = 13
+    )
+ggmap(my_map, extent = &#39;panel&#39;)
+</code></pre>
+
+    </div>    
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-47.png" title="plot of chunk unnamed-chunk-47" alt="plot of chunk unnamed-chunk-47" style="display: block; margin: auto;" /></p>
+
+    </div>
+  </article>
+</slide>
+
+<slide class="" id="slide-34" style="background:;">
+  <hgroup>
+    <h2>ggally</h2>
+  </hgroup>
+  <article data-timings="">
+    
   </article>
   <!-- Presenter Notes -->
 </slide>
@@ -818,8 +963,44 @@ library(ggthemes)
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=28 title='Easy mapping with ggmap'>
+        data-slide=28 title='Themes'>
          28
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=29 title='Easy mapping with ggmap'>
+         29
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=30 title='Easy mapping with ggmap'>
+         30
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=31 title='Easy mapping with ggmap'>
+         31
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=32 title='Easy mapping with ggmap'>
+         32
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=33 title='Easy mapping with ggmap'>
+         33
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=34 title='ggally'>
+         34
       </a>
     </li>
   </ul>
