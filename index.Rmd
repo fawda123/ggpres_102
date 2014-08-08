@@ -573,4 +573,7 @@ ggmap(my_map, extent = 'panel')
 
 ---
 
-## ggally
+## GGally
+
+- Generalized pairs plots, i.e., pairs plots with quantitative and categorical data
+- <a href=http://vita.had.co.nz/papers/gpp.pdf>Theory</a>
