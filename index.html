@@ -785,12 +785,215 @@ ggmap(my_map, extent = &#39;panel&#39;)
   </article>
 </slide>
 
-<slide class="" id="slide-34" style="background:;">
+<slide class="" id="">
   <hgroup>
-    <h2>ggally</h2>
+    <h2>GGally</h2>
+    <br/>
+  </hgroup>
+  <article>
+      
+    <div class='left' style='float:left;width:50%'>
+      <ul>
+<li>A helper to ggplot2... contains templates for different plots to be combined into a plot matrix, a parallel coordinate plot function, as well as a function for making a network plot, on <a href = http://cran.r-project.org/web/packages/GGally/GGally.pdf>CRAN</a></li>
+<li>The <a href=http://vita.had.co.nz/papers/gpp.pdf>generalized pairs plot</a> is a plot matrix that builds on the standard pairs plot</li>
+</ul>
+
+<pre><code class="r">data(tips, package = &quot;reshape2&quot;)
+pairs(tips[, 1:4])
+</code></pre>
+
+    </div>    
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-49.png" title="plot of chunk unnamed-chunk-49" alt="plot of chunk unnamed-chunk-49" style="display: block; margin: auto;" /></p>
+
+    </div>
+  </article>
+</slide>
+
+<slide class="" id="">
+  <hgroup>
+    <h2>GGally</h2>
+    <br/>
+  </hgroup>
+  <article>
+      
+    <div class='left' style='float:left;width:50%'>
+      <ul>
+<li>Pairs plots are inadequate for exploratory analysis of variables that are a mix of quantitative and categorical information</li>
+<li>ggpairs provides a plot matrix of mosaic tiles that describe data of different categories using a ggplot2 framework</li>
+</ul>
+
+<pre><code class="r">install.packages(&#39;GGally&#39;)
+ggpairs(tips[, 1:4])
+</code></pre>
+
+    </div>    
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-51.png" title="plot of chunk unnamed-chunk-51" alt="plot of chunk unnamed-chunk-51" style="display: block; margin: auto;" /></p>
+
+    </div>
+  </article>
+</slide>
+
+<slide class="" id="">
+  <hgroup>
+    <h2>GGally</h2>
+    <br/>
+  </hgroup>
+  <article>
+      
+    <div class='left' style='float:left;width:50%'>
+      <ul>
+<li>Information above/below diagonal is not redundant</li>
+<li>quantitative-quantitative: scatterplot</li>
+<li>quantitative-categorical: boxplots</li>
+<li>categorical-categorical: conditional barplots</li>
+</ul>
+
+<pre><code class="r">install.packages(&#39;GGally&#39;)
+ggpairs(tips[, 1:4])
+</code></pre>
+
+    </div>    
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-53.png" title="plot of chunk unnamed-chunk-53" alt="plot of chunk unnamed-chunk-53" style="display: block; margin: auto;" /></p>
+
+    </div>
+  </article>
+</slide>
+
+<slide class="" id="">
+  <hgroup>
+    <h2>GGally</h2>
+    <br/>
+  </hgroup>
+  <article>
+      
+    <div class='left' style='float:left;width:50%'>
+      <ul>
+<li>Defaults can be customized</li>
+</ul>
+
+<pre><code class="r">install.packages(&#39;GGally&#39;)
+ggpairs(
+  tips[,1:4],
+  upper = list(continuous = &quot;density&quot;, 
+    combo = &quot;box&quot;),
+  lower = list(continuous = &quot;points&quot;, 
+    combo = &quot;dot&quot;)
+    )
+</code></pre>
+
+    </div>    
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-55.png" title="plot of chunk unnamed-chunk-55" alt="plot of chunk unnamed-chunk-55" style="display: block; margin: auto;" /></p>
+
+    </div>
+  </article>
+</slide>
+
+<slide class="" id="">
+  <hgroup>
+    <h2>GGally</h2>
+    <br/>
+  </hgroup>
+  <article>
+      
+    <div class='left' style='float:left;width:50%'>
+      <ul>
+<li>Other plots... static parallel coordinate plots.</li>
+</ul>
+
+<pre><code class="r">ggparcoord(data = iris, columns = 1:4, groupColumn = 5, 
+    order = &quot;anyClass&quot;)
+</code></pre>
+
+    </div>    
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-57.png" title="plot of chunk unnamed-chunk-57" alt="plot of chunk unnamed-chunk-57" style="display: block; margin: auto;" /></p>
+
+    </div>
+  </article>
+</slide>
+
+<slide class="" id="">
+  <hgroup>
+    <h2>GGally</h2>
+    <br/>
+  </hgroup>
+  <article>
+      
+    <div class='left' style='float:left;width:50%'>
+      <ul>
+<li>Other plots... network plots.</li>
+</ul>
+
+<pre><code class="r">library(sna)
+
+url = url(&quot;http://networkdata.ics.uci.edu/
+    netdata/data/cities.RData&quot;)
+print(load(url)); close(url)
+# plot cities, firms and law firms
+type = cities %v% &quot;type&quot;
+type = ifelse(grepl(&quot;City|Law&quot;, type), 
+    gsub(&quot;I+&quot;, &quot;&quot;, type), &quot;Firm&quot;)
+ggnet(cities, mode = &quot;kamadakawai&quot;, 
+    alpha = .5, node.group = type, 
+    label.nodes = c(&quot;Paris&quot;, &quot;Beijing&quot;, 
+        &quot;Chicago&quot;), 
+    color = &quot;darkred&quot;)
+</code></pre>
+
+    </div>    
+    <div class='right' style='float:right;width:50%'>
+      <p><img src="assets/fig/unnamed-chunk-59.png" title="plot of chunk unnamed-chunk-59" alt="plot of chunk unnamed-chunk-59" style="display: block; margin: auto;" /></p>
+
+    </div>
+  </article>
+</slide>
+
+<slide class="" id="slide-40" style="background:;">
+  <hgroup>
+    <h2>What does ggplot2 offer that isn&#39;t in base?</h2>
   </hgroup>
   <article data-timings="">
-    
+    <ul>
+<li>Many geoms</li>
+</ul>
+
+<pre><code class="r">ls(pattern = &#39;^geom_&#39;, env = as.environment(&#39;package:ggplot2&#39;))
+</code></pre>
+
+<pre><code>##  [1] &quot;geom_abline&quot;     &quot;geom_area&quot;       &quot;geom_bar&quot;       
+##  [4] &quot;geom_bin2d&quot;      &quot;geom_blank&quot;      &quot;geom_boxplot&quot;   
+##  [7] &quot;geom_contour&quot;    &quot;geom_crossbar&quot;   &quot;geom_density&quot;   
+## [10] &quot;geom_density2d&quot;  &quot;geom_dotplot&quot;    &quot;geom_errorbar&quot;  
+## [13] &quot;geom_errorbarh&quot;  &quot;geom_freqpoly&quot;   &quot;geom_hex&quot;       
+## [16] &quot;geom_histogram&quot;  &quot;geom_hline&quot;      &quot;geom_jitter&quot;    
+## [19] &quot;geom_line&quot;       &quot;geom_linerange&quot;  &quot;geom_map&quot;       
+## [22] &quot;geom_path&quot;       &quot;geom_point&quot;      &quot;geom_pointrange&quot;
+## [25] &quot;geom_polygon&quot;    &quot;geom_quantile&quot;   &quot;geom_raster&quot;    
+## [28] &quot;geom_rect&quot;       &quot;geom_ribbon&quot;     &quot;geom_rug&quot;       
+## [31] &quot;geom_segment&quot;    &quot;geom_smooth&quot;     &quot;geom_step&quot;      
+## [34] &quot;geom_text&quot;       &quot;geom_tile&quot;       &quot;geom_violin&quot;    
+## [37] &quot;geom_vline&quot;
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-41" style="background:;">
+  <hgroup>
+    <h2>What does ggplot2 offer that isn&#39;t in base?</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>Easy facetting, pre-loaded and customized themes, spatial data, pairs plots...</p></li>
+<li><p>See online <a href = http://ggplot2.org/>documentation</a> for more comprehensive descriptions</p></li>
+<li><p>Presentation materials available <a href = https://github.com/fawda123/ggpres_102>here</a></p></li>
+</ul>
+
   </article>
   <!-- Presenter Notes -->
 </slide>
@@ -999,8 +1202,50 @@ ggmap(my_map, extent = &#39;panel&#39;)
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=34 title='ggally'>
+        data-slide=34 title='GGally'>
          34
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=35 title='GGally'>
+         35
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=36 title='GGally'>
+         36
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=37 title='GGally'>
+         37
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=38 title='GGally'>
+         38
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=39 title='GGally'>
+         39
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=40 title='What does ggplot2 offer that isn&#39;t in base?'>
+         40
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=41 title='What does ggplot2 offer that isn&#39;t in base?'>
+         41
       </a>
     </li>
   </ul>

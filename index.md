@@ -578,6 +578,169 @@ ggmap(my_map, extent = 'panel')
 
 <img src="assets/fig/unnamed-chunk-47.png" title="plot of chunk unnamed-chunk-47" alt="plot of chunk unnamed-chunk-47" style="display: block; margin: auto;" />
 
+---&twocol w1:50% w2:50%
+
+## GGally
+
+***=left
+
+- A helper to ggplot2... contains templates for different plots to be combined into a plot matrix, a parallel coordinate plot function, as well as a function for making a network plot, on <a href = http://cran.r-project.org/web/packages/GGally/GGally.pdf>CRAN</a>
+- The <a href=http://vita.had.co.nz/papers/gpp.pdf>generalized pairs plot</a> is a plot matrix that builds on the standard pairs plot
+
+
+```r
+data(tips, package = "reshape2")
+pairs(tips[, 1:4])
+```
+
+***=right
+
+<img src="assets/fig/unnamed-chunk-49.png" title="plot of chunk unnamed-chunk-49" alt="plot of chunk unnamed-chunk-49" style="display: block; margin: auto;" />
+
+---&twocol w1:50% w2:50%
+
+## GGally
+
+***=left
+
+- Pairs plots are inadequate for exploratory analysis of variables that are a mix of quantitative and categorical information
+- ggpairs provides a plot matrix of mosaic tiles that describe data of different categories using a ggplot2 framework
+
+
+```r
+install.packages('GGally')
+ggpairs(tips[, 1:4])
+```
+
+***=right
+
+<img src="assets/fig/unnamed-chunk-51.png" title="plot of chunk unnamed-chunk-51" alt="plot of chunk unnamed-chunk-51" style="display: block; margin: auto;" />
+
+---&twocol w1:50% w2:50%
+
+## GGally
+
+***=left
+
+- Information above/below diagonal is not redundant
+- quantitative-quantitative: scatterplot
+- quantitative-categorical: boxplots
+- categorical-categorical: conditional barplots
+
+
+```r
+install.packages('GGally')
+ggpairs(tips[, 1:4])
+```
+
+***=right
+
+<img src="assets/fig/unnamed-chunk-53.png" title="plot of chunk unnamed-chunk-53" alt="plot of chunk unnamed-chunk-53" style="display: block; margin: auto;" />
+
+---&twocol w1:50% w2:50%
+
+## GGally
+
+***=left
+
+- Defaults can be customized
+
+
+```r
+install.packages('GGally')
+ggpairs(
+  tips[,1:4],
+  upper = list(continuous = "density", 
+  	combo = "box"),
+  lower = list(continuous = "points", 
+  	combo = "dot")
+	)
+```
+
+***=right
+
+<img src="assets/fig/unnamed-chunk-55.png" title="plot of chunk unnamed-chunk-55" alt="plot of chunk unnamed-chunk-55" style="display: block; margin: auto;" />
+
+---&twocol w1:50% w2:50%
+
+## GGally
+
+***=left
+
+- Other plots... static parallel coordinate plots.
+
+
+```r
+ggparcoord(data = iris, columns = 1:4, groupColumn = 5, 
+	order = "anyClass")
+```
+
+***=right
+
+<img src="assets/fig/unnamed-chunk-57.png" title="plot of chunk unnamed-chunk-57" alt="plot of chunk unnamed-chunk-57" style="display: block; margin: auto;" />
+
+---&twocol w1:50% w2:50%
+
+## GGally
+
+***=left
+
+- Other plots... network plots.
+
+
+```r
+library(sna)
+
+url = url("http://networkdata.ics.uci.edu/
+	netdata/data/cities.RData")
+print(load(url)); close(url)
+# plot cities, firms and law firms
+type = cities %v% "type"
+type = ifelse(grepl("City|Law", type), 
+	gsub("I+", "", type), "Firm")
+ggnet(cities, mode = "kamadakawai", 
+	alpha = .5, node.group = type, 
+	label.nodes = c("Paris", "Beijing", 
+		"Chicago"), 
+	color = "darkred")
+```
+
+***=right
+
+<img src="assets/fig/unnamed-chunk-59.png" title="plot of chunk unnamed-chunk-59" alt="plot of chunk unnamed-chunk-59" style="display: block; margin: auto;" />
+
 ---
 
-## ggally
+## What does ggplot2 offer that isn't in base?
+
+- Many geoms
+
+```r
+ls(pattern = '^geom_', env = as.environment('package:ggplot2'))
+```
+
+```
+##  [1] "geom_abline"     "geom_area"       "geom_bar"       
+##  [4] "geom_bin2d"      "geom_blank"      "geom_boxplot"   
+##  [7] "geom_contour"    "geom_crossbar"   "geom_density"   
+## [10] "geom_density2d"  "geom_dotplot"    "geom_errorbar"  
+## [13] "geom_errorbarh"  "geom_freqpoly"   "geom_hex"       
+## [16] "geom_histogram"  "geom_hline"      "geom_jitter"    
+## [19] "geom_line"       "geom_linerange"  "geom_map"       
+## [22] "geom_path"       "geom_point"      "geom_pointrange"
+## [25] "geom_polygon"    "geom_quantile"   "geom_raster"    
+## [28] "geom_rect"       "geom_ribbon"     "geom_rug"       
+## [31] "geom_segment"    "geom_smooth"     "geom_step"      
+## [34] "geom_text"       "geom_tile"       "geom_violin"    
+## [37] "geom_vline"
+```
+
+---
+
+## What does ggplot2 offer that isn't in base?
+
+- Easy facetting, pre-loaded and customized themes, spatial data, pairs plots...
+
+- See online <a href = http://ggplot2.org/>documentation</a> for more comprehensive descriptions
+
+- Presentation materials available <a href = https://github.com/fawda123/ggpres_102>here</a>
