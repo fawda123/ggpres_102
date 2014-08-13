@@ -13,6 +13,10 @@ library(grid)
 library(slidify)
 library(slidifyLibraries)
 library(ggthemes)	
+library(ggmap)
+library(GGally)
+library(sna)
+library(network)
 
 # functions to use
 source('funcs.r')

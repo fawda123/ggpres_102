@@ -256,12 +256,12 @@ head(diamonds[, grep('fake', names(diamonds))])
 
 ```
 ##   fake1 fake2 fake3 fake4
-## 1     B     D     E     H
-## 2     A     D     E     G
-## 3     B     D     E     H
-## 4     B     D     F     H
-## 5     A     C     F     G
-## 6     B     D     E     H
+## 1     B     C     E     G
+## 2     B     C     E     H
+## 3     B     C     E     G
+## 4     A     C     F     G
+## 5     A     D     F     H
+## 6     B     C     F     G
 ```
 
 
@@ -307,7 +307,8 @@ p1 + facet_grid(fake1 + fake2 ~ fake3 + fake4)
 ```r
 data(iris)
 p2 <- ggplot(iris, aes(x = Sepal.Length, 
-		y = Sepal.Width)) +
+		y = Sepal.Width, 
+		colour = Species)) +
 	geom_point()
 p2
 ```
@@ -671,7 +672,8 @@ ggpairs(
 
 
 ```r
-ggparcoord(data = iris, columns = 1:4, groupColumn = 5, 
+ggparcoord(data = iris, columns = 1:4, 
+	groupColumn = 5, 
 	order = "anyClass")
 ```
 
@@ -744,3 +746,5 @@ ls(pattern = '^geom_', env = as.environment('package:ggplot2'))
 - See online <a href = http://ggplot2.org/>documentation</a> for more comprehensive descriptions
 
 - Presentation materials available <a href = https://github.com/fawda123/ggpres_102>here</a>
+
+- EPA, NHEERL slidify template from Jeff's <a href = https://github.com/jhollist/jwhSlidifyStyle>repo</a>
