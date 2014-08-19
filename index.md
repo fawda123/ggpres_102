@@ -257,11 +257,11 @@ head(diamonds[, grep('fake', names(diamonds))])
 ```
 ##   fake1 fake2 fake3 fake4
 ## 1     B     C     E     G
-## 2     B     C     E     H
-## 3     B     C     E     G
-## 4     A     C     F     G
-## 5     A     D     F     H
-## 6     B     C     F     G
+## 2     B     D     F     H
+## 3     A     D     F     G
+## 4     B     D     E     G
+## 5     A     D     F     G
+## 6     B     D     E     H
 ```
 
 
@@ -743,7 +743,7 @@ ls(pattern = '^geom_', env = as.environment('package:ggplot2'))
 
 - Easy facetting, pre-loaded and customized themes, spatial data, pairs plots...
 
-- See online <a href = http://ggplot2.org/>documentation</a> for more comprehensive descriptions
+- See online <a href = http://ggplot2.org/>documentation</a> for additional functionality
 
 - Presentation materials available <a href = https://github.com/fawda123/ggpres_102>here</a>
 

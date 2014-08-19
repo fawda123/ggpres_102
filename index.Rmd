@@ -749,7 +749,7 @@ ls(pattern = '^geom_', env = as.environment('package:ggplot2'))
 
 - Easy facetting, pre-loaded and customized themes, spatial data, pairs plots...
 
-- See online <a href = http://ggplot2.org/>documentation</a> for more comprehensive descriptions
+- See online <a href = http://ggplot2.org/>documentation</a> for additional functionality
 
 - Presentation materials available <a href = https://github.com/fawda123/ggpres_102>here</a>
 
