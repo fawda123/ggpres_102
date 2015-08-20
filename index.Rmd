@@ -13,6 +13,24 @@ mode        : selfcontained # {standalone, draft}
 ---
 
 ```{r, echo = F, cache = F}
+# packages
+library(knitr)
+library(reshape2) 
+library(xtable) 
+library(ggplot2) 
+library(grid)
+library(slidify)
+library(slidifyLibraries)
+library(ggthemes)	
+library(ggmap)
+library(GGally)
+library(sna)
+library(network)
+
+# functions to use
+source('funcs.r')
+
+# knitr options
 opts_chunk$set(cache = F, fig.align = 'center') 
 ```
 
